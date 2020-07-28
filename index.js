@@ -36,6 +36,7 @@ function getKeys(obj) {
 }
 
 //recursive helper function to convert JSON object to string.
+//TBD: remove commas from end of each line
 function readJSON (json, keyList, firstCall = true) {
   let result = '';
   //if this is the first call, generate the function headers based off of the keyList
@@ -45,7 +46,20 @@ function readJSON (json, keyList, firstCall = true) {
     }
     result = result.concat('\n');
   }
+  //go through key list, writing values to the result.
+  for(var key in keyList) {
+    if(json[key] === undefined) {
+      result = result.concat(',');
+    } else {
+      result = result.concat(`${json[key]},`);
+    }
+  }
+  result = result.concat('\n');
 
+  //recursively call for each child, and append to result string
+  for(let i = 0; i < json.children.length; i++) {
+    result = result.concat(readJSON(json.children[i], keyList, false));
+  }
 
   return result;
 }
