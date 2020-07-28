@@ -13,6 +13,18 @@ const bodyParser = require('body-parser');
 const app = express();
 const port = 3000;
 
+//variable for form HTML data
+const formPage = `<body>
+<h3>Enter the information to convert below:</h3>
+<form method="post" action="/upload_json">
+  <input type="textarea" name="inputData" id="json-file">
+  <input type="submit" value="Submit">
+</form>
+
+<!--Placeholder tag for CSV file result: will be blank by default-->
+<div id="output"></div>
+</body>`;
+
 app.use(express.static('client'));
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -29,7 +41,6 @@ function getKeys(obj) {
     }
   }
   for(let i = 0; i < obj.children.length; i++) {
-    console.log("Recursing...");
     keyList = Object.assign(keyList, getKeys(obj.children[i]));
   }
   return keyList;
@@ -87,7 +98,7 @@ app.post('/upload_json', (req,res) => {
   let output = convertJSONtoCSV(input);
   console.log("CSV Output:");
   console.log(output);
-  res.send(output);
+  res.send(formPage.concat(output));
 });
 
 
