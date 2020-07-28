@@ -18,19 +18,6 @@ app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
 //function declarations
-function convertJSONtoCSV(json) {
-  //travel through JSON object, grabbing keys as column headers from object and any siblings/children
-  let keyList = getKeys(json);
-
-  console.log('---KEY GET TEST---');
-  console.log(keyList);
-
-  //after getting all column names, iterate through the JSON object and check each entry for its column value.
-  //set to an empty string(,) if no value found
-  let csvFormat = '';
-
-  return csvFormat;
-}
 
 //recursive helper function to get all keys from passed in object
 //keyList is in object format with value = true to handle duplicates
@@ -47,6 +34,37 @@ function getKeys(obj) {
   }
   return keyList;
 }
+
+//recursive helper function to convert JSON object to string.
+function readJSON (json, keyList, firstCall = true) {
+  let result = '';
+  //if this is the first call, generate the function headers based off of the keyList
+  if(firstCall === true) {
+    for(var key in keyList) {
+      result = result.concat(`${key},`);
+    }
+    result = result.concat('\n');
+  }
+
+
+  return result;
+}
+
+function convertJSONtoCSV(json) {
+  //travel through JSON object, grabbing keys as column headers from object and any siblings/children
+  let keyList = getKeys(json);
+
+  console.log('---KEY GET TEST---');
+  console.log(keyList);
+
+  //after getting all column names, iterate through the JSON object and check each entry for its column value.
+  //set to an empty string(,) if no value found
+  let csvFormat = readJSON(json, keyList);
+
+  return csvFormat;
+}
+
+
 
 //app event handler declarations
 
