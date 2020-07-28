@@ -5,10 +5,13 @@
 
   <body>
     <h3>Enter the information to convert below:</h3>
-    <form method="post">
+    <form method="post" action="/upload_json">
       <input type="textarea" id="json-file">
       <input type="submit" value="Submit">
     </form>
+
+    <!--Placeholder tag for CSV file result: will be blank by default-->
+    <div id="output"></div>
   </body>
 
 </html>
