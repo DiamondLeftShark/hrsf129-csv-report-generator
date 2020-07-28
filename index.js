@@ -54,7 +54,7 @@ function readJSON (json, keyList, firstCall = true) {
     for(var key in keyList) {
       result = result.concat(`${key},`);
     }
-    result = result.slice(0,-1).concat('\n');
+    result = result.slice(0,-1).concat('<br>');
   }
   //go through key list, writing values to the result.
   for(var key in keyList) {
@@ -64,7 +64,7 @@ function readJSON (json, keyList, firstCall = true) {
       result = result.concat(`${json[key]},`);
     }
   }
-  result = result.slice(0,-1).concat('\n');
+  result = result.slice(0,-1).concat('<br>');
 
   //recursively call for each child, and append to result string
   for(let i = 0; i < json.children.length; i++) {
