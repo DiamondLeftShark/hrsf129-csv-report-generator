@@ -20,7 +20,7 @@ app.use(bodyParser.json());
 //function declarations
 
 //recursive helper function to get all keys from passed in object
-//keyList is in object format with value = true to handle duplicates
+//keyList is in object format with value = true to prevent duplicate columns
 function getKeys(obj) {
   let keyList = {};
   for(var key in obj) {
@@ -36,7 +36,6 @@ function getKeys(obj) {
 }
 
 //recursive helper function to convert JSON object to string.
-//TBD: remove commas from end of each line
 function readJSON (json, keyList, firstCall = true) {
   let result = '';
   //if this is the first call, generate the function headers based off of the keyList
@@ -68,11 +67,7 @@ function convertJSONtoCSV(json) {
   //travel through JSON object, grabbing keys as column headers from object and any siblings/children
   let keyList = getKeys(json);
 
-  console.log('---KEY GET TEST---');
-  console.log(keyList);
-
   //after getting all column names, iterate through the JSON object and check each entry for its column value.
-  //set to an empty string(,) if no value found
   let csvFormat = readJSON(json, keyList);
 
   return csvFormat;
@@ -92,7 +87,7 @@ app.post('/upload_json', (req,res) => {
   let output = convertJSONtoCSV(input);
   console.log("CSV Output:");
   console.log(output);
-  res.send('TBD');
+  res.send(output);
 });
 
 
