@@ -99,9 +99,9 @@ function convertJSONtoCSV(json) {
 //input will come in as req.body.inputData
 app.post('/upload_json', (req,res) => {
   //console.log(req.body);
-  console.log(req.files);
+  console.log(req.files.inputData.data.toString('utf8'));
   //let input = JSON.parse(req.body.inputData.toString('utf8')); //TBD: refactor to use files
-  let input = {};
+  let input = JSON.parse(req.files.inputData.data.toString('utf8'));
 
   //TBD: configure response information
   let output = convertJSONtoCSV(input);
