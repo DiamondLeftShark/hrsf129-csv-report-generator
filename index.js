@@ -10,6 +10,7 @@ You may also assume that child records in the JSON will always be in a property 
 //----package/library decs----
 const express = require('express');
 const fs = require('fs');
+var path = require('path');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
@@ -94,7 +95,6 @@ function convertJSONtoCSV(json) {
 }
 
 //----app event handler declarations----
-
 //file contents will come in on req.files.inputData.data
 app.post('/upload_json', (req,res) => {
   console.log(req.files.inputData.data.toString('utf8'));
@@ -113,9 +113,11 @@ app.post('/upload_json', (req,res) => {
   res.send(output);
 });
 
+//listener for download requests
 app.get('/download', (req, res) => {
   console.log("Download requested.");
-  res.sendFile('converted_file.csv');
+  //console.log(path.join(__dirname,'converted_file.csv'));
+  res.sendFile(path.join(__dirname,'converted_file.csv'));
 });
 
 //start listener

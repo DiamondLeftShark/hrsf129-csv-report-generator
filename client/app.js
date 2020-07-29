@@ -23,7 +23,17 @@ $('form').on('submit', function(event) {
       document.getElementById("download").style.display = 'block';
     }
 });
+})
 
+$('button').on('click', function(event) {
+  console.log("Download button clicked.");
+  $.ajax({
+    url: '/download',
+    type: 'GET',
+    success: function(response) {
+      console.log("File received.");
+    }
+  })
 })
 
 console.log("app.js loaded!");
