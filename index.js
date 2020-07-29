@@ -60,7 +60,7 @@ function readJSON (json, keyList, firstCall = true) {
     for(var key in keyList) {
       result = result.concat(`${key},`);
     }
-    result = result.slice(0,-1).concat('<br>');
+    result = result.slice(0,-1).concat('\n');
   }
   //go through key list, writing values to the result.
   for(var key in keyList) {
@@ -70,7 +70,7 @@ function readJSON (json, keyList, firstCall = true) {
       result = result.concat(`${json[key]},`);
     }
   }
-  result = result.slice(0,-1).concat('<br>');
+  result = result.slice(0,-1).concat('\n');
 
   //recursively call for each child, and append to result string
   if(json.children !== undefined) {
@@ -104,7 +104,7 @@ app.post('/upload_json', (req,res) => {
   let output = convertJSONtoCSV(input);
   console.log("---CSV Output---");
   console.log(output);
-  res.send(formPage.concat(output));
+  res.send(output);
 });
 
 
