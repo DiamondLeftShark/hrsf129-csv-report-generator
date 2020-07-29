@@ -10,6 +10,7 @@ You may also assume that child records in the JSON will always be in a property 
 //package/library decs
 const express = require('express');
 const bodyParser = require('body-parser');
+const fileUpload = require('express-fileupload');
 const app = express();
 const port = 3000;
 
@@ -26,6 +27,8 @@ const formPage = `<body>
 </body>`;
 
 app.use(express.static('client'));
+app.use(fileUpload());
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
@@ -40,8 +43,11 @@ function getKeys(obj) {
       keyList[key] = true;
     }
   }
-  for(let i = 0; i < obj.children.length; i++) {
-    keyList = Object.assign(keyList, getKeys(obj.children[i]));
+
+  if(obj.children !== undefined) {
+    for(let i = 0; i < obj.children.length; i++) {
+      keyList = Object.assign(keyList, getKeys(obj.children[i]));
+    }
   }
   return keyList;
 }
@@ -67,8 +73,10 @@ function readJSON (json, keyList, firstCall = true) {
   result = result.slice(0,-1).concat('<br>');
 
   //recursively call for each child, and append to result string
-  for(let i = 0; i < json.children.length; i++) {
-    result = result.concat(readJSON(json.children[i], keyList, false));
+  if(json.children !== undefined) {
+    for(let i = 0; i < json.children.length; i++) {
+      result = result.concat(readJSON(json.children[i], keyList, false));
+    }
   }
 
   return result;
@@ -90,9 +98,10 @@ function convertJSONtoCSV(json) {
 
 //input will come in as req.body.inputData
 app.post('/upload_json', (req,res) => {
-  //console.log(req.body.inputData);
-  let input = JSON.parse(req.body.inputData);
-  console.log(input);
+  //console.log(req.body);
+  console.log(req.files);
+  //let input = JSON.parse(req.body.inputData.toString('utf8')); //TBD: refactor to use files
+  let input = {};
 
   //TBD: configure response information
   let output = convertJSONtoCSV(input);
