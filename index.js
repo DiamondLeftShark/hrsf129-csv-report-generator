@@ -7,7 +7,7 @@ but child objects might not contain the same properties. In all cases, every pro
 You may also assume that child records in the JSON will always be in a property called `children`.
 */
 
-//package/library decs
+//----package/library decs----
 const express = require('express');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
@@ -17,8 +17,8 @@ const port = 3000;
 //variable for form HTML data
 const formPage = `<body>
 <h3>Enter the information to convert below:</h3>
-<form method="post" action="/upload_json">
-  <input type="textarea" name="inputData" id="json-file">
+<form method="post" action="/upload_json" encType="multipart/form-data">
+  <input type="file" name="inputData" id="json-file">
   <input type="submit" value="Submit">
 </form>
 
@@ -32,7 +32,7 @@ app.use(fileUpload());
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
 
-//function declarations
+//----function declarations----
 
 //recursive helper function to get all keys from passed in object
 //keyList is in object format with value = true to prevent duplicate columns
@@ -92,20 +92,17 @@ function convertJSONtoCSV(json) {
   return csvFormat;
 }
 
+//----app event handler declarations----
 
-
-//app event handler declarations
-
-//input will come in as req.body.inputData
+//file contents will come in on req.files.inputData.data
 app.post('/upload_json', (req,res) => {
-  //console.log(req.body);
   console.log(req.files.inputData.data.toString('utf8'));
-  //let input = JSON.parse(req.body.inputData.toString('utf8')); //TBD: refactor to use files
+  //let input = JSON.parse(req.body.inputData.toString('utf8')); //old handling for text field input
   let input = JSON.parse(req.files.inputData.data.toString('utf8'));
 
-  //TBD: configure response information
+  //convert input to CSV and send back to user
   let output = convertJSONtoCSV(input);
-  console.log("CSV Output:");
+  console.log("---CSV Output---");
   console.log(output);
   res.send(formPage.concat(output));
 });
