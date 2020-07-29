@@ -1,6 +1,7 @@
 //This is for manipulating DOM elements on the index page
 
-console.log("app.js loaded!");
+//hide download button to start
+//document.getElementById("download").style.display = 'none';
 
 $('form').on('submit', function(event) {
   event.preventDefault();
@@ -17,9 +18,12 @@ $('form').on('submit', function(event) {
     processData: false,
     success: function (response) {
       console.log("File successfully submitted!");
-      console.log(response);
+      //console.log(response);
       document.getElementById('output').innerText = response;
+      document.getElementById("download").style.display = 'block';
     }
 });
 
 })
+
+console.log("app.js loaded!");
