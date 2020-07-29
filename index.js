@@ -114,11 +114,11 @@ app.post('/upload_json', (req,res) => {
 });
 
 //listener for download requests
-app.get('/download', (req, res) => {
+/* app.get('/download', (req, res) => {
   console.log("Download requested.");
   //console.log(path.join(__dirname,'converted_file.csv'));
   res.sendFile(path.join(__dirname,'converted_file.csv'));
-});
+}); */
 
 //start listener
 app.listen(port, () => console.log(`Server listening at http://localhost:${port}`));
