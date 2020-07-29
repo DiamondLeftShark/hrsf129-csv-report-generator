@@ -97,23 +97,24 @@ function convertJSONtoCSV(json) {
 //----app event handler declarations----
 //file contents will come in on req.files.inputData.data
 app.post('/upload_json', (req,res) => {
-  console.log(req.files.inputData.data.toString('utf8'));
+  //console.log(req.files.inputData.data.toString('utf8'));
   //let input = JSON.parse(req.body.inputData.toString('utf8')); //old handling for text field input
   let input = JSON.parse(req.files.inputData.data.toString('utf8'));
 
   //convert input to CSV and send back to user
   let output = convertJSONtoCSV(input);
-  console.log("---CSV Output---");
-  console.log(output);
-  fs.writeFile('converted_file.csv', output, function(err) {
-    if(err) {
-      console.log(err);
-    }
-  });
+  //console.log("---CSV Output---");
+  //console.log(output);
+  // fs.writeFile('converted_file.csv', output, function(err) {
+  //   if(err) {
+  //     console.log(err);
+  //   }
+  // });
   res.send(output);
 });
 
 //listener for download requests
+//RB: Commented out because I moved the download handling to client side/app.js
 /* app.get('/download', (req, res) => {
   console.log("Download requested.");
   //console.log(path.join(__dirname,'converted_file.csv'));

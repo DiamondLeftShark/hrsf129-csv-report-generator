@@ -26,6 +26,7 @@ $('form').on('submit', function(event) {
 })
 
 //RB: I found this on the internet
+//creates a dummy element and clicks it to generate the file for the user
 function download(filename, text) {
   var element = document.createElement('a');
   element.setAttribute('href', 'data:text/plain;charset=utf-8,' + encodeURIComponent(text));
