@@ -9,13 +9,14 @@ You may also assume that child records in the JSON will always be in a property 
 
 //----package/library decs----
 const express = require('express');
+const fs = require('fs');
 const bodyParser = require('body-parser');
 const fileUpload = require('express-fileupload');
 const app = express();
 const port = 3000;
 
 //variable for form HTML data
-const formPage = `<body>
+/* const formPage = `<body>
 <h3>Enter the information to convert below:</h3>
 <form method="post" action="/upload_json" encType="multipart/form-data">
   <input type="file" name="inputData" id="json-file">
@@ -24,7 +25,7 @@ const formPage = `<body>
 
 <!--Placeholder tag for CSV file result: will be blank by default-->
 <div id="output"></div>
-</body>`;
+</body>`; */
 
 app.use(express.static('client'));
 app.use(fileUpload());
@@ -104,6 +105,11 @@ app.post('/upload_json', (req,res) => {
   let output = convertJSONtoCSV(input);
   console.log("---CSV Output---");
   console.log(output);
+  fs.writeFile('converted_file.csv', output, function(err) {
+    if(err) {
+      console.log(err);
+    }
+  });
   res.send(output);
 });
 
